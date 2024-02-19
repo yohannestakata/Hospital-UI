@@ -46,6 +46,7 @@ import AddUltraTemplate from "./features/ultrasound/AddUltraTemplate";
 import AddXrayTemplate from "./features/ultrasound/AddXrayTemplate";
 import AddBid from "./features/reception/AddBid";
 import UpdatePatient from "./features/reception/UpdatePatient";
+import AddTests from "./features/Admin/AddTests";
 
 axios.defaults.headers.common["Authorization"] = Cookies.get("jwt_token");
 
@@ -161,6 +162,10 @@ const router = createHashRouter([
           {
             path: "/admin/:patientId/history/:patientId",
             element: <DoctorViewHistoryDetail />,
+          },
+          {
+            path: "/admin/add-tests",
+            element: <AddTests />,
           },
         ],
       },

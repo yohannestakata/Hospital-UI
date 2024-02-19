@@ -53,7 +53,7 @@ function ViewPatients() {
         </form>
       </div>
       <div className="mt-4 flex flex-col gap-2">
-        <div className="sticky left-0 top-0 grid cursor-pointer grid-cols-6 items-center justify-items-center rounded-md bg-green-800 p-3 text-sm font-bold text-green-50 hover:bg-green-50">
+        <div className="sticky left-0 top-0 grid grid-cols-6 items-center justify-items-center rounded-md bg-green-800 p-3 text-sm font-bold text-green-50 ">
           <span>Card Number</span>
           <span>Name</span>
           <span>Age</span>
@@ -68,7 +68,7 @@ function ViewPatients() {
                 e.preventDefault();
                 handleClick(patient);
               }}
-              className="grid cursor-pointer grid-cols-6 items-center justify-items-center rounded-md bg-white p-3 text-sm hover:bg-green-50"
+              className="grid cursor-pointer grid-cols-6 items-center justify-items-center rounded-md bg-white p-1 text-sm hover:bg-green-50"
             >
               <span>{patient.cardNumber}</span>
               <span className="font-bold">{patient.name}</span>
