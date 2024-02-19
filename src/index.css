@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active {
+  @apply bg-green-800 text-green-50;
+}
+
+* {
+  min-width: 0;
+  font-family: inherit;
+  /* @apply text-black/80; */
+}
+
+*:focus {
+  @apply outline-green-800;
+}
+
+@font-face {
+  font-family: "Open Sans";
+  src: url("/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/Poppins-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Noto Sans";
+  src: url("/NotoSansEthiopic-VariableFont_wdth,wght.ttf") format("truetype");
+}
+
+* {
+  --scrollbar-color-thumb: rgba(0, 0, 0, 0.2);
+  --scrollbar-color-track: rgba(0, 0, 0, 0);
+  --scrollbar-width: thin;
+  --scrollbar-width-legacy: 8px;
+}
+
+/* Modern browsers with `scrollbar-*` support */
+@supports (scrollbar-width: auto) {
+  * {
+    scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
+    scrollbar-width: var(--scrollbar-width);
+  }
+}
+
+/* Legacy browsers with `::-webkit-scrollbar-*` support */
+@supports selector(::-webkit-scrollbar) {
+  *::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-color-thumb);
+  }
+  *::-webkit-scrollbar-track {
+    background: var(--scrollbar-color-track);
+  }
+  *::-webkit-scrollbar {
+    max-width: var(--scrollbar-width-legacy);
+    max-height: var(--scrollbar-width-legacy);
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
