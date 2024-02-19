@@ -60,12 +60,12 @@ function HistoryList({
 }) {
   return (
     <>
-      <div className="mt-3 flex items-end justify-between print:mt-0">
-        <h1 className="mb-2 text-2xl print:text-lg print:font-bold">
+      <div className="mt-3 flex items-end  justify-between  print:mt-0">
+        <h1 className="text-2xl print:text-lg print:font-bold">
           Patient Diagnosis
         </h1>
         <button
-          className="flex items-center gap-3 rounded-md border border-black/50 px-4 py-2 hover:bg-green-900 hover:text-green-200 print:invisible"
+          className="flex items-center gap-2 rounded-md border border-black/50 px-2 py-1 hover:bg-green-900 hover:text-green-200 print:invisible"
           onClick={handlePrint}
         >
           <FaPrint className="opacity-70" />
