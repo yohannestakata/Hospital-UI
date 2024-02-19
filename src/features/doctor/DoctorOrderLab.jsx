@@ -116,7 +116,7 @@ function DoctorOrderLab() {
         className=" flex flex-col gap-3"
       >
         <div className="flex flex-col gap-4 rounded-md border border-gray-300 bg-white p-4 ">
-          <h1 className="text-2xl">Labratory</h1>
+          <h1 className="text-2xl">Laboratory</h1>
           {isLoading ||
             Object.entries(groupedTests).map((section) => {
               return (

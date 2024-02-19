@@ -7,8 +7,6 @@ import PrintTemplate from "../../components/PrintTemplate";
 function ShowUltrasoundResults({ ultraId }) {
   const { ultraResult } = useGetUltraResult(ultraId);
 
-  console.log(ultraId);
-
   const [searchParams] = useSearchParams();
   const patientId = searchParams.get("patientId");
   const { patient } = useGetPatient(patientId);

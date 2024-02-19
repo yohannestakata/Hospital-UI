@@ -2,7 +2,8 @@ import { useSearchParams } from "react-router-dom";
 import PrintTemplate from "../../components/PrintTemplate";
 import useGetPatient from "../../hooks/useGetPatient";
 import useGetLabResult from "./useGetLabResult";
-import { FaPrint } from "react-icons/fa";
+import { FaInfoCircle, FaPrint } from "react-icons/fa";
+import { FaI } from "react-icons/fa6";
 
 function ShowLabResults({ labId }) {
   const { labResult } = useGetLabResult(labId);
@@ -23,7 +24,7 @@ function ShowLabResults({ labId }) {
         <h1 className="print:text-lg">Laboratory Results</h1>
         <button
           onClick={handlePrint}
-          className="flex items-center gap-2 rounded-md border border-black/50 px-4 py-2 text-base hover:bg-green-800 hover:text-green-200 print:hidden"
+          className="flex items-center gap-2 rounded-md border border-black/50 px-2 py-1 text-base hover:bg-green-800 hover:text-green-200 print:hidden"
         >
           <FaPrint />
           Print
@@ -56,7 +57,12 @@ function ShowLabResults({ labId }) {
               </table>
             </div>
           );
-        })}
+        }) || (
+          <div className="flex items-center gap-2 rounded-md bg-white p-3 font-bold">
+            <FaInfoCircle className="opacity-60" />
+            <span>No results</span>
+          </div>
+        )}
       </div>
     </PrintTemplate>
   );
