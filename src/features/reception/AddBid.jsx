@@ -18,7 +18,7 @@ function AddOldPatient() {
 
   return (
     <div className="mx-2  rounded-md bg-white p-3">
-      <h2 className="text-2xl">B.I.D ክፍያ</h2>
+      <h2 className="text-2xl">ክፍያ</h2>
       <form
         action=""
         className="mt-3 flex flex-col gap-2 "
@@ -71,26 +71,6 @@ function AddOldPatient() {
             register={register("phone", { required: "Patient phone required" })}
             error={errors.phone}
           />
-          {/* <div className="flex gap-2">
-        <AddUserInput
-          id="wereda"
-          label="ወረዳ"
-          type="text"
-          placeholder="Wereda"
-          register={register("wereda", { required: false })}
-          error={errors.wereda}
-        />
-        <AddUserInput
-          id="houseNum"
-          label="የቤት ቁጥር"
-          type="text"
-          placeholder="House Number"
-          register={register("houseNumber", {
-            required: false,
-          })}
-          error={errors.houseNumber}
-        />
-      </div> */}
           <AddUserInput
             id="addressZone"
             label="አድራሻ"
@@ -101,26 +81,46 @@ function AddOldPatient() {
             })}
             error={errors.addressZone}
           />
-        </div>{" "}
+        </div>
+        <div className="flex gap-2">
+          <label htmlFor="room" className="flex flex-1 flex-col gap-1">
+            <span className="ml-1  text-sm font-bold ">ምርመራ ክፍል</span>
+            <select
+              required
+              name=""
+              id="room"
+              {...register("type")}
+              className="rounded-md border border-black/50 p-2"
+            >
+              <option value="">Room</option>
+              <option value="lab">Laboratory</option>
+              <option value="ultrasound">Ultrasound</option>
+              <option value="xray">X-ray</option>
+              <option value="bid">BID</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label htmlFor="testType" className="flex flex-1 flex-col gap-1">
+            <span className="ml-1 flex-1 text-sm font-bold ">ምርመራ ዓይነት</span>
+            <input
+              id="testType"
+              type="text"
+              {...register("testType")}
+              className="rounded-md border border-black/50 p-2"
+              placeholder="Test type"
+            />
+          </label>
+        </div>
         <div className="flex gap-2">
           <AddUserInput
             id="bidFee"
             label="ክፍያ"
             type="number"
-            placeholder=" B.I.D Fee"
-            register={register("bidFee")}
+            placeholder="Fee"
+            register={register("fee")}
           />
         </div>
-        {/* <AddUserInput
-        id="alerfy"
-        label="አለርጂ"
-        type="text"
-        placeholder="Alergy"
-        register={register("alergy", {
-          required: false,
-        })}
-        error={errors.alergy}
-      /> */}
+
         <div className="flex gap-2">
           <button
             type="clear"

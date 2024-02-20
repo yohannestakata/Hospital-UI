@@ -46,12 +46,14 @@ function LabWriteTest() {
   const doctorName = searchParams.get("doctorName");
   const doctorId = searchParams.get("doctorId");
   const waitingId = searchParams.get("waitingId");
+  const isExternal = searchParams.get("isExternal");
 
   const { register, handleSubmit } = useForm();
 
   const { patient } = useGetPatient(patientId);
 
   const { orderedTests } = useGetOrderedLabTests(orderId);
+  console.log(orderedTests);
 
   const { mutate: addResult } = useAddLabResult();
 
@@ -102,7 +104,9 @@ function LabWriteTest() {
                 </tr>
                 <tr>
                   <td>OPD:</td>
-                  <td className="px-2 font-bold">{doctorName}</td>
+                  <td className="px-2 font-bold">
+                    {isExternal ? "External" : doctorName}
+                  </td>
                 </tr>
               </tbody>
             </table>

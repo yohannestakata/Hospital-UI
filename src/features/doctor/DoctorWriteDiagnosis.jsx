@@ -11,6 +11,7 @@ function DoctorWriteDiagnosis() {
   const [history, setHistory] = useState({});
   const [physicalExamination, setPhysicalExamination] = useState({});
   const { patient } = usePatient();
+  console.log(chiefComplaint);
 
   const handleCheckboxChange = (value, isChecked) => {
     if (isChecked) {
@@ -74,10 +75,10 @@ function DoctorWriteDiagnosis() {
       riskFactor: todaysDiagnosis?.riskFactor,
       recentAdmission: todaysDiagnosis?.recentAdmission,
     }));
-    setChiefComplaint(todaysDiagnosis?.chiefComplaint);
+    setChiefComplaint((prev) => {
+      return todaysDiagnosis?.chiefComplaint || prev;
+    });
   }, [latestDiagnosis, todaysDiagnosis]);
-
-  useEffect(() => {}, [setPhysicalExamination, todaysDiagnosis]);
 
   function handleSubmit(e) {
     e.preventDefault();
