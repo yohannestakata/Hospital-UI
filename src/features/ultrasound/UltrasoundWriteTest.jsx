@@ -23,9 +23,11 @@ function UltrasoundWriteTest() {
   const queueId = searchParams.get("queueId");
   const orderId = searchParams.get("orderId");
   const waitingId = searchParams.get("waitingId");
+  const isExternal = searchParams.get("isExternal");
 
   const { patient } = useGetPatient(patientId);
   const { order } = useGetUltraOrder(orderId);
+  console.log(order);
   const [findingsText, setFindingsText] = useState("");
   const [conclusionText, setConclusionText] = useState("");
 
@@ -101,20 +103,24 @@ function UltrasoundWriteTest() {
                 <td>Name:</td>
                 <td className="px-2 ">
                   <span className="font-amharic font-bold">
-                    {patient?.name}
+                    {!isExternal ? patient?.name : order?.bid.name}
                   </span>
                 </td>
               </tr>
               <tr>
                 <td>Age:</td>
                 <td className="px-2 ">
-                  <span className="font-bold"> {patient?.age}</span>
+                  <span className="font-bold">
+                    {!isExternal ? patient?.age : order?.bid.age}
+                  </span>
                 </td>
               </tr>
               <tr>
                 <td>Sex:</td>
                 <td className="px-2 ">
-                  <span className="font-bold"> {patient?.gender}</span>
+                  <span className="font-bold">
+                    {!isExternal ? patient?.gender : order?.bid.sex}
+                  </span>
                 </td>
               </tr>
               <tr>
@@ -134,32 +140,72 @@ function UltrasoundWriteTest() {
         </div>
         <div className="my-5 rounded-md border border-black/50 p-4">
           <h2 className="font-bold">Ultrasound Order</h2>
-          <p className="mt-2 ">{order?.orderedTest}</p>
+          <p className="mt-2 ">
+            {!isExternal ? order?.orderedTest : order?.externalOrder}
+          </p>
         </div>
+
         <div className="">
           <h2 className="text-lg">Report</h2>
-          <PrintTemplate patient={patient}>
+          <PrintTemplate
+            patient={
+              !isExternal
+                ? patient
+                : {
+                    name: order?.bid.name,
+                    age: order?.bid.age,
+                    sez: order?.bid.sex,
+                  }
+            }
+          >
             <form
               action=""
               className="mt-3 flex flex-col gap-2"
               onSubmit={handleSubmit}
             >
-              {order?.orderedTest.split(", ").map((test) => {
-                return (
-                  <>
-                    <label
-                      htmlFor={`${test} findings`}
-                      className="mt-3 flex flex-col gap-1"
-                      key={test}
-                    >
-                      <div className="flex items-end justify-between">
-                        <span className="ml-1 text-sm font-bold">
-                          {test} Findings
-                        </span>
-                        <select
-                          name=""
-                          id=""
-                          className="rounded-md border border-black/50 px-3 py-1 print:hidden "
+              {!isExternal &&
+                order?.orderedTest.split(", ").map((test) => {
+                  return (
+                    <>
+                      <label
+                        htmlFor={`${test} findings`}
+                        className="mt-3 flex flex-col gap-1"
+                        key={test}
+                      >
+                        <div className="flex items-end justify-between">
+                          <span className="ml-1 text-sm font-bold">
+                            {test} Findings
+                          </span>
+                          <select
+                            name=""
+                            id=""
+                            className="rounded-md border border-black/50 px-3 py-1 print:hidden "
+                            onChange={(e) => {
+                              setFindingsText((prev) => {
+                                return {
+                                  ...prev,
+                                  [`${test} findings`]: e.target.value,
+                                };
+                              });
+                            }}
+                          >
+                            <option value="">Load template</option>
+                            {templates
+                              ?.filter((temp) => temp.type === "ultrasound")
+                              .toSorted((a, b) =>
+                                a.title.localeCompare(b.title),
+                              )
+                              .map((temp) => {
+                                return (
+                                  <option key={temp._id} value={temp.content}>
+                                    {temp.title}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                        <textarea
+                          value={findingsText[`${test} findings`]}
                           onChange={(e) => {
                             setFindingsText((prev) => {
                               return {
@@ -168,73 +214,131 @@ function UltrasoundWriteTest() {
                               };
                             });
                           }}
-                        >
-                          <option value="">Load template</option>
-                          {templates
-                            ?.filter((temp) => temp.type === "ultrasound")
-                            .toSorted((a, b) => a.title.localeCompare(b.title))
-                            .map((temp) => {
-                              return (
-                                <option key={temp._id} value={temp.content}>
-                                  {temp.title}
-                                </option>
-                              );
-                            })}
-                        </select>
-                      </div>
-                      <textarea
-                        value={findingsText[`${test} findings`]}
+                          style={{
+                            height: `${findingsTextAreaHeight[`${test} findings`] || 100}px`,
+                          }}
+                          name=""
+                          id={`${test} findings`}
+                          cols="30"
+                          rows="6"
+                          placeholder={`${test} findings`}
+                          className="w-full rounded-md border border-black/50 px-3 py-1 "
+                        ></textarea>
+                      </label>
+                      <label
+                        htmlFor={`${test} conclusion`}
+                        className="flex flex-col gap-1"
+                      >
+                        <span className="ml-1 text-sm font-bold">
+                          {test} Conclusion
+                        </span>
+                        <textarea
+                          value={conclusionText[`${test} conclusion`]}
+                          onChange={(e) =>
+                            setConclusionText((prev) => {
+                              return {
+                                ...prev,
+                                [`${test} conclusion`]: e.target.value,
+                              };
+                            })
+                          }
+                          style={{
+                            height: `${conclusionTextAreaHeight[`${test} conclusion`] || 100}px`,
+                          }}
+                          name=""
+                          id={`${test} conclusion`}
+                          cols="30"
+                          rows="3"
+                          placeholder={`${test} Conclusion`}
+                          className="w-full rounded-md  border border-black/50 px-3 py-1 "
+                        ></textarea>
+                      </label>
+                    </>
+                  );
+                })}
+              {isExternal && (
+                <div>
+                  <label
+                    htmlFor={`findings`}
+                    className="mt-3 flex flex-col gap-1"
+                  >
+                    <div className="flex items-end justify-between">
+                      <span className="ml-1 text-sm font-bold">Findings</span>
+                      <select
+                        name=""
+                        id=""
+                        className="rounded-md border border-black/50 px-3 py-1 print:hidden "
                         onChange={(e) => {
                           setFindingsText((prev) => {
                             return {
                               ...prev,
-                              [`${test} findings`]: e.target.value,
+                              [`findings`]: e.target.value,
                             };
                           });
                         }}
-                        style={{
-                          height: `${findingsTextAreaHeight[`${test} findings`] || 100}px`,
-                        }}
-                        name=""
-                        id={`${test} findings`}
-                        cols="30"
-                        rows="6"
-                        placeholder={`${test} findings`}
-                        className="w-full rounded-md border border-black/50 px-3 py-1 "
-                      ></textarea>
-                    </label>
-                    <label
-                      htmlFor={`${test} conclusion`}
-                      className="flex flex-col gap-1"
-                    >
-                      <span className="ml-1 text-sm font-bold">
-                        {test} Conclusion
-                      </span>
-                      <textarea
-                        value={conclusionText[`${test} conclusion`]}
-                        onChange={(e) =>
-                          setConclusionText((prev) => {
-                            return {
-                              ...prev,
-                              [`${test} conclusion`]: e.target.value,
-                            };
-                          })
-                        }
-                        style={{
-                          height: `${conclusionTextAreaHeight[`${test} conclusion`] || 100}px`,
-                        }}
-                        name=""
-                        id={`${test} conclusion`}
-                        cols="30"
-                        rows="3"
-                        placeholder={`${test} Conclusion`}
-                        className="w-full rounded-md  border border-black/50 px-3 py-1 "
-                      ></textarea>
-                    </label>
-                  </>
-                );
-              })}
-
+                      >
+                        <option value="">Load template</option>
+                        {templates
+                          ?.filter((temp) => temp.type === "ultrasound")
+                          .toSorted((a, b) => a.title.localeCompare(b.title))
+                          .map((temp) => {
+                            return (
+                              <option key={temp._id} value={temp.content}>
+                                {temp.title}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    </div>
+                    <textarea
+                      value={findingsText[`findings`]}
+                      onChange={(e) => {
+                        setFindingsText((prev) => {
+                          return {
+                            ...prev,
+                            [`findings`]: e.target.value,
+                          };
+                        });
+                      }}
+                      style={{
+                        height: `${findingsTextAreaHeight[`findings`] || 100}px`,
+                      }}
+                      name=""
+                      id={`findings`}
+                      cols="30"
+                      rows="6"
+                      placeholder={`findings`}
+                      className="w-full rounded-md border border-black/50 px-3 py-1 "
+                    ></textarea>
+                  </label>
+                  <label
+                    htmlFor={`conclusion`}
+                    className="mt-3 flex flex-col gap-1"
+                  >
+                    <span className="ml-1 text-sm font-bold">Conclusion</span>
+                    <textarea
+                      value={conclusionText[`conclusion`]}
+                      onChange={(e) =>
+                        setConclusionText((prev) => {
+                          return {
+                            ...prev,
+                            [`conclusion`]: e.target.value,
+                          };
+                        })
+                      }
+                      style={{
+                        height: `${conclusionTextAreaHeight[`conclusion`] || 100}px`,
+                      }}
+                      name=""
+                      id={`conclusion`}
+                      cols="30"
+                      rows="3"
+                      placeholder={`Conclusion`}
+                      className="w-full rounded-md  border border-black/50 px-3 py-1 "
+                    ></textarea>
+                  </label>
+                </div>
+              )}
               <div className="ml-auto mt-2 flex  gap-2 print:hidden">
                 <button
                   onClick={(e) => {
