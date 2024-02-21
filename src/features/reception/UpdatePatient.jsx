@@ -37,6 +37,9 @@ function UpdatePatient() {
     });
     // updatePatient(data);
   };
+  if (!patient) {
+    return <div>Loading...</div>; // or another loading indicator
+  }
   return (
     <div className="mx-2  rounded-md bg-white p-3">
       <h2 className="text-2xl">Edit Existing Patient</h2>
