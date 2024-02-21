@@ -9,7 +9,7 @@ function useAddBid() {
   const { mutate, isLoading } = useMutation({
     mutationFn: addBid,
     onSuccess: () => {
-      toast.success("B.I.D success");
+      toast.success("Payment success");
       navigate("/reception");
     },
   });
