@@ -8,13 +8,13 @@ function useUpdatePatient() {
   const navigate = useNavigate();
   const { setPatient } = usePatient();
 
-  const { mutate, isLoading, data } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationFn: updatePatient,
-    onSuccess: () => {
+    onSuccess: (result) => {
       toast.success("Patient edited successfully");
       navigate(-1);
-      // setPatient(data);
-      console.log(data);
+      setPatient(result.data.data);
+      console.log(result.data.data);
     },
     onError: () => {
       toast.error("Error updating patient");

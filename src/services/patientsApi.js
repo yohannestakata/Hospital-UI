@@ -32,7 +32,6 @@ export function getAllPatients() {
 }
 
 export function updatePatient(fields) {
-  console.log(fields);
   return axios({
     method: "patch",
     url: `${API_BASE_URL}/api/v1/patients/${fields._id}`,
