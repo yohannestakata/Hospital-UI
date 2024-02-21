@@ -1,24 +1,22 @@
-import { useState } from "react";
-import { FaInfoCircle } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaInfoCircle, FaPlus } from "react-icons/fa";
+import useAddTest from "./useAddTest";
+
+const initialParameter = {
+  name: "",
+  editable: [true, true],
+  defaultValues: ["", ""],
+};
+
+const initialTest = {
+  name: "",
+  type: "",
+  parameters: [initialParameter],
+  parameterValues: ["Result", "Normal Value"],
+};
 
 function AddTests() {
-  const [test, setTest] = useState({
-    name: "",
-    type: "",
-    parameters: [
-      {
-        name: "",
-        editable: [],
-        defaultValues: [],
-      },
-    ],
-    parameterValues: ["Result", "Normal Value"],
-  });
-
-  const paramValuesLength = test.parameterValues.length;
-
-  console.log(test, paramValuesLength);
-
+  const [test, setTest] = useState(initialTest);
   function handleNameChange(e) {
     e.preventDefault();
     setTest((prev) => {
@@ -40,9 +38,50 @@ function AddTests() {
     });
   }
 
+  const addParameter = () => {
+    const newParameter = {
+      name: test.name,
+      editable: Array(test.parameterValues.length).fill(true),
+      defaultValues: Array(test.parameterValues.length).fill(""),
+    };
+
+    setTest((prev) => ({
+      ...prev,
+      parameters: [...prev.parameters, newParameter],
+    }));
+  };
+
+  useEffect(() => {
+    const updatedParameters = test.parameters.map((param) => ({
+      ...param,
+      name: test.name,
+      editable: Array(test.parameterValues.length).fill(true),
+      defaultValues: Array(test.parameterValues.length).fill(""),
+    }));
+
+    setTest((prev) => ({
+      ...prev,
+      parameters: updatedParameters,
+    }));
+  }, [test.name, test.parameterValues.length]);
+
+  const { addTest } = useAddTest();
+
+  function handleSubmit() {
+    addTest(test);
+  }
+
   return (
     <div className="rounded-md bg-white p-3">
-      <h1 className="text-2xl">Add Laboratory Tests</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl">Add Laboratory Tests</h1>
+        <button
+          className="rounded-md bg-green-800 px-4 py-2 text-green-50  hover:bg-green-900 hover:text-green-200"
+          onClick={handleSubmit}
+        >
+          Add Test
+        </button>
+      </div>
 
       <form action="" className="mt-4 flex flex-col gap-3">
         <div className="flex gap-2">
@@ -98,15 +137,51 @@ function AddTests() {
         <h3 className="mt-3 font-bold text-green-800">
           {test.name} - {test.type}
         </h3>
-        <table className="mt-2 w-full overflow-hidden rounded-md">
+        <table className="mt-2 w-full overflow-hidden rounded-md text-left">
           <thead>
             <tr className="bg-green-800 text-green-50">
+              <th className="px-2 py-1">Params</th>
               {test.parameterValues.map((head) => {
                 return <th className="px-2 py-1">{head}</th>;
               })}
             </tr>
           </thead>
+          <tbody>
+            {test.parameters.map((param, i) => {
+              return (
+                <tr>
+                  <td className="py-1">
+                    <input
+                      required
+                      className="rounded-md border border-black/50  px-2 py-1"
+                      placeholder="Param name"
+                      value={param.name}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        setTest((prev) => {
+                          const updatedParameters = [...prev.parameters];
+                          updatedParameters[i] = {
+                            ...updatedParameters[i],
+                            name: e.target.value,
+                          };
+                          return { ...prev, parameters: updatedParameters };
+                        });
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
+        <button
+          type="button"
+          onClick={addParameter}
+          className="mt-2 flex items-center gap-2 rounded-md bg-green-800 px-2 py-1 text-sm text-green-50"
+        >
+          <FaPlus />
+          Add Param
+        </button>
       </div>
     </div>
   );

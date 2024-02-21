@@ -14,3 +14,11 @@ export function getOrderedTests(id) {
     url: `${API_BASE_URL}/api/v1/orders/labratory/${id}`,
   });
 }
+
+export function addTests(fields) {
+  return axios({
+    method: "post",
+    url: `${API_BASE_URL}/api/v1/tests`,
+    data: fields,
+  });
+}

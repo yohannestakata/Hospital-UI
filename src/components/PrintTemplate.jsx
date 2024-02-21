@@ -49,7 +49,7 @@ function PrintTemplate({ children, patient, hideFoot, key, isPrescription }) {
               Sex: <span className="font-bold">{patient.gender}</span>
             </span>
             <span>
-              Card Number:
+              Card Number:{" "}
               <span className="font-bold">{patient.cardNumber}</span>
             </span>
           </div>
