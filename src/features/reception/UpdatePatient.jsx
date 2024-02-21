@@ -4,6 +4,7 @@ import AddUserInput from "../patient/AddUserInput";
 import { useParams } from "react-router-dom";
 import useGetPatient from "../../hooks/useGetPatient";
 import useUpdatePatient from "./useUpdatePatient";
+import { useEffect, useState } from "react";
 
 function UpdatePatient() {
   const { isLoading: doctorsLoading, doctors } = useGetDoctors();
@@ -15,9 +16,10 @@ function UpdatePatient() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors },
   } = useForm({
-    defaultValues: {
+    defaultValues: async () => ({
       cardNum: patient?.cardNumber,
       name: patient?.name,
       age: patient?.age,
@@ -25,8 +27,20 @@ function UpdatePatient() {
       phone: patient?.phone,
       addressZone: patient?.addressZone,
       opd: patient?.opd,
-    },
+    }),
   });
+
+  useEffect(() => {
+    reset({
+      cardNum: patient?.cardNumber,
+      name: patient?.name,
+      age: patient?.age,
+      sex: patient?.gender,
+      phone: patient?.phone,
+      addressZone: patient?.addressZone,
+      opd: patient?.opd,
+    });
+  }, [reset, patient]);
 
   const onSubmit = (data) => {
     updatePatient({
@@ -40,6 +54,7 @@ function UpdatePatient() {
   if (!patient) {
     return <div>Loading...</div>; // or another loading indicator
   }
+
   return (
     <div className="mx-2  rounded-md bg-white p-3">
       <h2 className="text-2xl">Edit Existing Patient</h2>
