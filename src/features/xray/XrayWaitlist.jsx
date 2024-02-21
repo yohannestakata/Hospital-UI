@@ -35,7 +35,7 @@ function XrayWaitlist() {
                   <td className="px-6 py-4 font-amharic font-bold text-slate-700">
                     {item.patientId.name}
                   </td>
-                  <td className="px-6 py-4">{item.doctorId.name}</td>
+                  <td className="px-6 py-4">{item?.doctorId?.name}</td>
                 </tr>
               );
             else {
