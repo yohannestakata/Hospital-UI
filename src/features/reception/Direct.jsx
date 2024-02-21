@@ -52,12 +52,12 @@ function Direct() {
                 key={item._id}
               >
                 <td className="px-6 py-3 font-bold text-black/70">
-                  {item.patientId.name}
+                  {item.patientId?.name}
                 </td>
                 <td className="px-6 py-3 font-bold text-black/70">
                   {item.doctorId?.name}
                 </td>
-                <td className="px-6 py-3 ">{item.patientId.cardNumber}</td>
+                <td className="px-6 py-3 ">{item.patientId?.cardNumber}</td>
                 <td className="px-6 py-3">{formatDateToTime(item.date)}</td>
                 <td className="px-6 py-3 ">{formatDate(item.date)}</td>
               </tr>
