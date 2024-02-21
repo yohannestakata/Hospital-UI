@@ -33,6 +33,9 @@ function DoctorLayout() {
   function handleFinish() {
     mutate(waitingId);
   }
+  function handleEdit() {
+    navigate(`/doctor/:patientId/edit/${patient._id}`);
+  }
 
   return (
     <div className="h-full overflow-hidden">
@@ -127,7 +130,13 @@ function DoctorLayout() {
                   <table className="flex items-center gap-6">
                     <tr>
                       <th className="font-normal">
-                        <button className="flex h-full items-center rounded-md border border-black/50 p-1 hover:bg-black/10">
+                        <button
+                          className="flex h-full items-center rounded-md border border-black/50 p-1 hover:bg-black/10"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleEdit(patient._id);
+                          }}
+                        >
                           <FaPencil />
                         </button>
                       </th>

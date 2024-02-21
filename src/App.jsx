@@ -103,6 +103,10 @@ const router = createHashRouter([
             path: "/doctor/:patientId/appointment/",
             element: <DoctorScheduleAppointment />,
           },
+          {
+            path: "/doctor/:patientId/edit/:patientId",
+            element: <UpdatePatient />,
+          },
         ],
       },
       {

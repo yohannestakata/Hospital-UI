@@ -9,7 +9,7 @@ function useUpdatePatient() {
     mutationFn: updatePatient,
     onSuccess: () => {
       toast.success("Patient edited successfully");
-      navigate("/reception");
+      navigate(-1);
     },
     onError: () => {
       toast.error("Error updating patient");
