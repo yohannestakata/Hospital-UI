@@ -20,22 +20,42 @@ function XrayWaitlist() {
         </thead>
         <tbody>
           {waitlist?.map((item) => {
-            return (
-              <tr
-                onClick={() => {
-                  navigate(
-                    `/xray/write-test?patientId=${item.patientId._id}&doctorId=${item.doctorId._id}&orderId=${item.orderId._id}&patientName=${item.patient_name}&queueId=${item.queueId}&doctorName=${item.doctorId.name}&waitingId=${item._id}`,
-                  );
-                }}
-                className="cursor-pointer border-b bg-white hover:bg-black/10"
-                key={item._id}
-              >
-                <td className="px-6 py-4 font-amharic font-bold text-slate-700">
-                  {item.patientId.name}
-                </td>
-                <td className="px-6 py-4">{item.doctorId.name}</td>
-              </tr>
-            );
+            console.log(item);
+            if (!item.isExternal)
+              return (
+                <tr
+                  onClick={() => {
+                    navigate(
+                      `/xray/write-test?patientId=${item.patientId._id}&doctorId=${item.doctorId._id}&orderId=${item.orderId._id}&patientName=${item.patient_name}&queueId=${item.queueId}&doctorName=${item.doctorId.name}&waitingId=${item._id}`,
+                    );
+                  }}
+                  className="cursor-pointer border-b bg-white hover:bg-black/10"
+                  key={item._id}
+                >
+                  <td className="px-6 py-4 font-amharic font-bold text-slate-700">
+                    {item.patientId.name}
+                  </td>
+                  <td className="px-6 py-4">{item.doctorId.name}</td>
+                </tr>
+              );
+            else {
+              return (
+                <tr
+                  onClick={() => {
+                    navigate(
+                      `/xray/write-test?&orderId=${item.orderId._id}&patientName=${item.bid.name}&doctorName=${"External"}&waitingId=${item._id}&isExternal=${true}`,
+                    );
+                  }}
+                  className="cursor-pointer border-b bg-white hover:bg-black/10"
+                  key={item._id}
+                >
+                  <td className="px-6 py-4 font-amharic font-bold text-slate-700">
+                    {item.bid.name}
+                  </td>
+                  <td className="px-6 py-4">{"External"}</td>
+                </tr>
+              );
+            }
           })}
         </tbody>
       </table>

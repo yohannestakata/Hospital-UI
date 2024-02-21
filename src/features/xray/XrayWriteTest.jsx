@@ -23,6 +23,7 @@ function XrayWriteTest() {
   const queueId = searchParams.get("queueId");
   const orderId = searchParams.get("orderId");
   const waitingId = searchParams.get("waitingId");
+  const isExternal = searchParams.get("isExternal");
 
   const { patient } = useGetPatient(patientId);
   const { order } = useGetXrayOrder(orderId);
@@ -112,32 +113,35 @@ function XrayWriteTest() {
         </div>
         <div className="mt-6">
           <form action="" className="" onSubmit={handleSubmit}>
-            <label htmlFor="techniques" className="flex flex-col gap-1">
-              {order?.orderedTest.split(", ").map((test) => {
-                return (
-                  <div>
-                    <span className="ml-1 mt-2 text-sm font-bold">
-                      {test} Techniques
-                    </span>
-                    <textarea
-                      value={techniquesText[test]}
-                      onChange={(e) =>
-                        setTechniquesText((prev) => ({
-                          ...prev,
-                          [test]: e.target.value,
-                        }))
-                      }
-                      name=""
-                      id="techniques"
-                      cols="30"
-                      rows="4"
-                      placeholder="Techniques"
-                      className="w-full rounded-md border-2 border-gray-500 px-3 py-1 focus:outline-blue-800"
-                    ></textarea>
-                  </div>
-                );
-              })}
-            </label>
+            {!isExternal && (
+              <label htmlFor="techniques" className="flex flex-col gap-1">
+                {order?.orderedTest.split(", ").map((test) => {
+                  return (
+                    <div>
+                      <span className="ml-1 mt-2 text-sm font-bold">
+                        {test} Techniques
+                      </span>
+                      <textarea
+                        value={techniquesText[test]}
+                        onChange={(e) =>
+                          setTechniquesText((prev) => ({
+                            ...prev,
+                            [test]: e.target.value,
+                          }))
+                        }
+                        name=""
+                        id="techniques"
+                        cols="30"
+                        rows="4"
+                        placeholder="Techniques"
+                        className="w-full rounded-md border-2 border-gray-500 px-3 py-1 focus:outline-blue-800"
+                      ></textarea>
+                    </div>
+                  );
+                })}
+              </label>
+            )}
+            {isExternal && order?.externalOrder}
 
             <button
               type="submit"
