@@ -2,6 +2,7 @@ import axios from "axios";
 import API_BASE_URL from "./apiConfig";
 
 export function uploadDiagnosis(fields) {
+  console.log(fields);
   return axios({
     method: "post",
     data: fields,

@@ -10,8 +10,8 @@ function DoctorWriteDiagnosis() {
   const [chiefComplaint, setChiefComplaint] = useState("");
   const [history, setHistory] = useState({});
   const [physicalExamination, setPhysicalExamination] = useState({});
+
   const { patient } = usePatient();
-  console.log(chiefComplaint);
 
   const handleCheckboxChange = (value, isChecked) => {
     if (isChecked) {
@@ -45,25 +45,21 @@ function DoctorWriteDiagnosis() {
     setPhysicalExamination((prev) => ({
       ...prev,
       abdomen: todaysDiagnosis?.abdomen,
-      allergyHistory: todaysDiagnosis?.allergyHistory,
       bp: todaysDiagnosis?.bp,
       chest: todaysDiagnosis?.chest,
       cns: todaysDiagnosis?.cns,
       cvs: todaysDiagnosis?.cvs,
       entguSys: todaysDiagnosis?.entguSys,
       extremity: todaysDiagnosis?.extremity,
-      familyHistory: todaysDiagnosis?.familyHistory,
       gApp: todaysDiagnosis?.gApp,
       gus: todaysDiagnosis?.gus,
       heent: todaysDiagnosis?.heent,
       impression: todaysDiagnosis?.impression,
       mss: todaysDiagnosis?.mss,
       others: todaysDiagnosis?.others,
-      pastSurgicalHistory: todaysDiagnosis?.pastSurgicalHistory,
       pr: todaysDiagnosis?.pr,
       respiRate: todaysDiagnosis?.respiRate,
       temp: todaysDiagnosis?.temp,
-      underlyingChronicIllness: todaysDiagnosis?.underlyingChronicIllness,
     }));
     setHistory((prev) => ({
       ...prev,
@@ -78,10 +74,14 @@ function DoctorWriteDiagnosis() {
     setChiefComplaint((prev) => {
       return todaysDiagnosis?.chiefComplaint || prev;
     });
-  }, [latestDiagnosis, todaysDiagnosis]);
+  }, [todaysDiagnosis, latestDiagnosis]);
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    console.log("Chief Complaint:", chiefComplaint);
+    console.log("History:", history);
+    console.log("Physical Examination:", physicalExamination);
 
     addDiagnosis({
       patientId,

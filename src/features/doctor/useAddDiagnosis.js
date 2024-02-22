@@ -14,7 +14,7 @@ function useAddDiagnosis() {
 
   const { mutate } = useMutation({
     mutationFn: (fields) => {
-      uploadDiagnosis(fields);
+      return uploadDiagnosis(fields);
     },
     onSuccess: () => {
       toast.success("Patient examination registered");
