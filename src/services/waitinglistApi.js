@@ -99,3 +99,11 @@ export function deleteFromWaitlist(id) {
     url: `${API_BASE_URL}/api/v1/waitinglist/doctor/${id}`,
   });
 }
+
+export function removeExternalWaitlist(fields) {
+  return axios({
+    method: "delete",
+    url: `${API_BASE_URL}/api/v1/waitinglist/external/`,
+    data: fields,
+  });
+}

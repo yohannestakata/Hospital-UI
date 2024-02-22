@@ -4,8 +4,9 @@ import useGetPatient from "../../hooks/useGetPatient";
 import { useEffect, useState } from "react";
 import useAddUltraResult from "./useAddUltraResult";
 import useGetUltraTemplates from "./useGetTemplates";
-import { FaPrint } from "react-icons/fa";
+import { FaCheck, FaPrint } from "react-icons/fa";
 import PrintTemplate from "../../components/PrintTemplate";
+import useRemoveExternalWaitlist from "../../hooks/useRemoveExternalWaitlist";
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString([], {
@@ -25,9 +26,19 @@ function UltrasoundWriteTest() {
   const waitingId = searchParams.get("waitingId");
   const isExternal = searchParams.get("isExternal");
 
+  const { deleteWaitlist } = useRemoveExternalWaitlist({
+    orderId: waitingId,
+    orderList: "ultrasound",
+    goto: "/ultrasound/waitinglist",
+  });
+
+  function handleFinish(e) {
+    e.preventDefault();
+    deleteWaitlist();
+  }
+
   const { patient } = useGetPatient(patientId);
   const { order } = useGetUltraOrder(orderId);
-  console.log(order);
   const [findingsText, setFindingsText] = useState("");
   const [conclusionText, setConclusionText] = useState("");
 
@@ -351,12 +362,24 @@ function UltrasoundWriteTest() {
                   <FaPrint />
                   Print
                 </button>
-                <button
-                  type="submit"
-                  className="block rounded-md bg-green-800 px-4 py-2 text-green-50 duration-100 hover:bg-green-900 hover:text-green-200"
-                >
-                  Submit
-                </button>
+                {!isExternal && (
+                  <button
+                    type="submit"
+                    className="block rounded-md bg-green-800 px-4 py-2 text-green-50 duration-100 hover:bg-green-900 hover:text-green-200"
+                  >
+                    Submit
+                  </button>
+                )}
+
+                {isExternal && (
+                  <button
+                    onClick={handleFinish}
+                    className="flex items-center gap-2 rounded-md bg-green-800 px-4 py-2 text-green-50 duration-100 hover:bg-green-900 hover:text-green-200"
+                  >
+                    <FaCheck />
+                    Finish
+                  </button>
+                )}
               </div>
             </form>
           </PrintTemplate>

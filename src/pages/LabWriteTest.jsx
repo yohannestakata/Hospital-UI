@@ -3,9 +3,10 @@ import useGetPatient from "../hooks/useGetPatient";
 import useGetOrderedLabTests from "../features/lab/useGetOrderedLabTests";
 import { useForm } from "react-hook-form";
 import useAddLabResult from "../features/lab/useAddLabResult";
-import { FaPrint } from "react-icons/fa";
+import { FaCheck, FaPrint } from "react-icons/fa";
 import PrintTemplate from "../components/PrintTemplate";
 import { useEffect, useState } from "react";
+import useRemoveExternalWaitlist from "../hooks/useRemoveExternalWaitlist";
 
 function transformData(data) {
   const result = {};
@@ -81,6 +82,17 @@ function LabWriteTest() {
     });
 
     console.log(transformData(data));
+  }
+
+  const { deleteWaitlist } = useRemoveExternalWaitlist({
+    orderId:waitingId,
+    orderList: "lab",
+    goto: "/lab-results",
+  });
+
+  function handleFinish(e) {
+    e.preventDefault();
+    deleteWaitlist();
   }
 
   const [findingsTextAreaHeight, setFindingsTextAreaHeight] = useState(0);
@@ -223,13 +235,20 @@ function LabWriteTest() {
                   </label>
                 </form>
               </div>
-              <div className="mt-1 flex justify-end">
+              <div className="mt-1 flex justify-end gap-2">
                 <button
                   className="flex items-center gap-2 rounded-md bg-green-800 px-4 py-2 text-green-50 print:hidden"
                   onClick={handlePrint}
                 >
                   <FaPrint />
                   Print
+                </button>
+                <button
+                  className="flex items-center gap-2 rounded-md bg-green-800 px-4 py-2 text-green-50 print:hidden"
+                  onClick={handleFinish}
+                >
+                  <FaCheck />
+                  Finish
                 </button>
               </div>
             </PrintTemplate>

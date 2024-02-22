@@ -4,7 +4,8 @@ import { useState } from "react";
 import useAddXrayResult from "./useAddXrayResult";
 import useGetXrayOrder from "./useGetXrayOrder";
 import PrintTemplate from "../../components/PrintTemplate";
-import { FaPrint } from "react-icons/fa";
+import { FaCheck, FaPrint } from "react-icons/fa";
+import useRemoveExternalWaitlist from "../../hooks/useRemoveExternalWaitlist";
 
 function formatDate(date) {
   return new Date(date).toLocaleDateString([], {
@@ -31,12 +32,22 @@ function XrayWriteTest() {
   const { order } = useGetXrayOrder(orderId);
   const [techniquesText, setTechniquesText] = useState("");
 
-  console.log(order);
   const { ipcRenderer } = window.require("electron");
 
   const handlePrint = () => {
     ipcRenderer.send("print");
   };
+
+  const { deleteWaitlist } = useRemoveExternalWaitlist({
+    orderId: waitingId,
+    orderList: "xray",
+    goto: "/xray",
+  });
+
+  function handleFinish(e) {
+    e.preventDefault();
+    deleteWaitlist();
+  }
 
   const { mutate: addResult } = useAddXrayResult();
 
@@ -188,20 +199,32 @@ function XrayWriteTest() {
                   </div>
                 </label>
               )}
-              <div className="flex justify-end gap-2 print:hidden">
+              <div className="flex items-center justify-end gap-2 print:hidden">
                 <button
                   onClick={handlePrint}
-                  className="mt-2 flex items-center gap-1 rounded-md border border-black/50 px-4 py-2 duration-100 hover:bg-green-900 hover:text-green-200"
+                  className="flex items-center gap-1 rounded-md border border-black/50 px-4 py-2 duration-100 hover:bg-green-900 hover:text-green-200"
                 >
                   <FaPrint />
                   Print
                 </button>
-                <button
-                  type="submit"
-                  className=" mt-2 block rounded-md bg-green-800 px-4 py-2 text-green-50 duration-100 hover:bg-green-900"
-                >
-                  Submit
-                </button>
+                {!isExternal && (
+                  <button
+                    type="submit"
+                    className="block rounded-md bg-green-800 px-4 py-2 text-green-50 duration-100 hover:bg-green-900 hover:text-green-200"
+                  >
+                    Submit
+                  </button>
+                )}
+
+                {isExternal && (
+                  <button
+                    onClick={handleFinish}
+                    className="flex items-center gap-2 rounded-md bg-green-800 px-4 py-2 text-green-50 duration-100 hover:bg-green-900 hover:text-green-200"
+                  >
+                    <FaCheck />
+                    Finish
+                  </button>
+                )}
               </div>
             </form>
           </div>
