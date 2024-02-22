@@ -133,9 +133,9 @@ function XrayWriteTest() {
         </div>
         <PrintTemplate
           patient={{
-            name: order?.bid.name,
-            age: order?.bid.age,
-            gender: order?.bid.sex,
+            name: order?.bid?.name,
+            age: order?.bid?.age,
+            gender: order?.bid?.sex,
             cardNumber: "External",
           }}
         >

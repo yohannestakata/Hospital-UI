@@ -23,7 +23,7 @@ function UltrasoundWaitlist() {
         </thead>
         <tbody>
           {waitlist?.map((item) => {
-            // console.log(item);
+            console.log(item, item.orderId.type);
             if (!item.isExternal)
               return (
                 <tr
@@ -42,7 +42,8 @@ function UltrasoundWaitlist() {
                   <td className="px-6 py-4">
                     <span
                       className={`${
-                        item.orderId.type === "Ultrasound"
+                        item.orderId.type === "Ultrasound" ||
+                        item.orderId.type === "ultrasound"
                           ? "bg-violet-800 text-violet-50"
                           : "bg-rose-800 text-rose-50"
                       } rounded-full px-2 `}
@@ -74,7 +75,8 @@ function UltrasoundWaitlist() {
                   <td className="px-6 py-4">
                     <span
                       className={`${
-                        item.orderId.type === "Ultrasound"
+                        item.orderId.type === "Ultrasound" ||
+                        item.orderId.type === "ultrasound"
                           ? "bg-violet-800 text-violet-50"
                           : "bg-rose-800 text-rose-50"
                       } rounded-full px-2 `}

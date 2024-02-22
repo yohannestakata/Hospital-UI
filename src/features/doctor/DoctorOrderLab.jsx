@@ -190,11 +190,6 @@ function DoctorOrderLab() {
               handleCheckboxChange={handleCheckboxChangeUltra}
             />
             <ComplaintCheckBox
-              complaint={"Obsteric (Twins)"}
-              type="ultrasound"
-              handleCheckboxChange={handleCheckboxChangeUltra}
-            />
-            <ComplaintCheckBox
               complaint={"Pelvic"}
               type="ultrasound"
               handleCheckboxChange={handleCheckboxChangeUltra}
