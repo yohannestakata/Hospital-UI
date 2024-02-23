@@ -156,12 +156,6 @@ function AddUserForm() {
       </div>
       <div className="flex gap-2">
         <button
-          type="clear"
-          className="flex-1 rounded-md border border-gray-400 py-2"
-        >
-          አጥፋ
-        </button>
-        <button
           disabled={isLoading}
           type="submit"
           className="flex-1 rounded-md  bg-green-800 py-2 text-green-50 disabled:bg-gray-400"

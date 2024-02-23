@@ -46,7 +46,7 @@ function Search({ onSubmit, value, setValue, patient, data }) {
         <input
           type="text"
           placeholder="Search card number"
-          className="w-full rounded-md border border-black/50 px-4 py-2  focus:outline-blue-800"
+          className="w-full rounded-md border border-black/50 px-4 py-2  "
           onChange={(e) => setValue(e.target.value)}
           value={value}
         />
@@ -124,8 +124,8 @@ function Search({ onSubmit, value, setValue, patient, data }) {
                         <td
                           className={`p-2 px-4 ${
                             getDaysAgo(patient.registrationDate) < 10
-                              ? "text-green-800"
-                              : "text-red-800"
+                              ? "text-yellow-800"
+                              : "text-green-800"
                           }`}
                         >
                           {getDaysAgo(patient.registrationDate) + " ቀናት በፊት"}
