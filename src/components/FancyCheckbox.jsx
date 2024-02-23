@@ -10,7 +10,7 @@ function FancyCheckbox({ label, value, register }) {
           id={label}
           value={value}
           type="checkbox"
-          class="before:content[''] border-blue-gray-200 before:bg-blue-gray-500 peer relative h-4 w-4 cursor-pointer appearance-none rounded border transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-green-800 checked:bg-green-800 checked:before:bg-green-800 hover:before:opacity-10"
+          class="before:content[''] before:bg-blue-gray-500 peer relative h-4 w-4 cursor-pointer appearance-none rounded border border-black transition-all before:absolute before:left-2/4 before:top-2/4 before:block before:h-12 before:w-12 before:-translate-x-2/4 before:-translate-y-2/4 before:rounded-full before:opacity-0 before:transition-opacity checked:border-green-800 checked:bg-green-800 checked:before:bg-green-800 hover:before:opacity-10"
         />
         <span class="pointer-events-none absolute left-2/4 top-2/4 -translate-x-2/4 -translate-y-2/4 text-white opacity-0 transition-opacity peer-checked:opacity-100">
           <svg
