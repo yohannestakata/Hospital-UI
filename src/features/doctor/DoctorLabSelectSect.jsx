@@ -36,7 +36,7 @@ function DoctorLabSelectSect({
         />
         <h2 className="font-bold">{section[0]}</h2>
       </label>
-      <div className="mt-3 grid grid-cols-4 gap-1">
+      <div className="mt-3 grid grid-flow-col grid-cols-4 grid-rows-4 gap-1">
         {section[1].map((test) => {
           // console.log(section);
           return (
