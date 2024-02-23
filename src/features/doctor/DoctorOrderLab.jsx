@@ -8,6 +8,7 @@ import DoctorLabSelectSect from "./DoctorLabSelectSect";
 import useAddOrder from "./useAddOrder";
 import FancyCheckbox from "../../components/FancyCheckbox";
 import ComplaintCheckBox from "./ComplaintCheckBox";
+import { useState } from "react";
 
 function DoctorOrderLab() {
   const { register, handleSubmit, reset, setValue, getValues } = useForm({
@@ -21,6 +22,8 @@ function DoctorOrderLab() {
   const [searchParams] = useSearchParams();
   const vitalsId = searchParams.get("vitals");
   const waitingId = searchParams.get("waitingId");
+
+  const [mySet, setMySet] = useState(new Set());
 
   function groupByType(data) {
     return data?.reduce((result, current) => {
@@ -41,19 +44,12 @@ function DoctorOrderLab() {
   function onSubmitLab(data) {
     addOrder({
       ...data,
+      lab: [...mySet],
       patientId: patient._id,
       doctorId: userId,
       vitalsId,
       waitingId,
     });
-
-    // console.log({
-    //   ...data,
-    //   patientId: patient._id,
-    //   doctorId: userId,
-    //   vitalsId,
-    //   waitingId,
-    // });
   }
 
   const handleCheckboxChangeUltra = (value, isChecked) => {
@@ -108,6 +104,27 @@ function DoctorOrderLab() {
     }
   };
 
+  const addToSet = (element) => {
+    const newSet = new Set(mySet);
+    newSet.add(element);
+    setMySet(newSet);
+  };
+
+  const removeFromSet = (element) => {
+    const newSet = new Set(mySet);
+    newSet.delete(element);
+    setMySet(newSet);
+  };
+  const addArrayToSet = (array) => {
+    const newSet = new Set([...mySet, ...array]);
+    setMySet(newSet);
+  };
+  const removeArrayFromSet = (array) => {
+    const newSet = new Set(mySet);
+    array.forEach((element) => newSet.delete(element));
+    setMySet(newSet);
+  };
+
   return (
     <div className="pb-1">
       <form
@@ -115,12 +132,17 @@ function DoctorOrderLab() {
         onSubmit={handleSubmit(onSubmitLab)}
         className=" flex flex-col gap-3"
       >
-        <div className="flex flex-col gap-4 rounded-md border border-gray-300 bg-white p-4 ">
+        <div className="flex flex-col gap-8 rounded-md border border-gray-300 bg-white p-4 ">
           <h1 className="text-2xl">Laboratory</h1>
           {isLoading ||
             Object.entries(groupedTests).map((section) => {
               return (
                 <DoctorLabSelectSect
+                  mySet={mySet}
+                  removeArrayFromSet={removeArrayFromSet}
+                  addArrayToSet={addArrayToSet}
+                  addToSet={addToSet}
+                  removeFromSet={removeFromSet}
                   key={section[0]}
                   register={register}
                   section={section}

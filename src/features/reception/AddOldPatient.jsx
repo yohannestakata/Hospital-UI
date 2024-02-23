@@ -4,7 +4,7 @@ import AddUserInput from "../patient/AddUserInput";
 import { useAddUser } from "../patient/useAddUser";
 
 function AddOldPatient() {
-  const { isLoading, mutate: mutatePatient } = useAddUser(false);
+  const { isLoading, mutate: mutatePatient } = useAddUser();
   const { isLoading: doctorsLoading, doctors } = useGetDoctors();
 
   const {

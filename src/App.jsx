@@ -179,7 +179,7 @@ const router = createHashRouter([
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { refetchInterval: 15 * 1000 },
+    queries: { refetchInterval: 1 * 1000 },
   },
 });
 
